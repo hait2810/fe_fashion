@@ -17,7 +17,7 @@ import { formatCurrency } from "../utils/utils";
 const ProductDisplay = ({ tab }: { tab: string }) => {
   console.log(tab);
   return <div className="mt-4">
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    <div className="grid grid-cols-1 p-2 md:grid-cols-2 md:p-0 lg:p-0 lg:grid-cols-4 gap-3">
       <div className="item">
         <div className="border-[1px] rounded-md border-sky-100">
           <img src="https://product.hstatic.net/1000235488/product/1045_9_ae47b370893f4dcc807b41b13dfe191e_large.jpg" className="mx-auto p-2 hover:scale-95 cursor-pointer transition-all duration-500 ease-in" alt="" />
@@ -126,39 +126,38 @@ const WomenClothing = () => {
 }
 
 const Home = () => {
-
   return (
     <>
       <Banner />
       <section className="my-6">
         <div className="container mx-auto">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 place-items-center">
-            <div className="flex gap-x-2 items-center">
+            <div className="flex flex-col xl:flex-row gap-x-2 w-[234px] items-center justify-center">
               <img src={icon1} className="w-10 h-10" alt="" />
               <div className="flex flex-col">
-                <h3 className="font-medium text-lg">Giao hàng toàn quốc</h3>
-                <p>Nhiều ưu đãi khuyến mãi hot</p>
+                <h3 className="font-medium text-lg text-center xl:text-left">Giao hàng toàn quốc</h3>
+                <p className="text-sm">Nhiều ưu đãi khuyến mãi hot</p>
               </div>
             </div>
-            <div className="flex gap-x-2 items-center">
+            <div className="flex flex-col xl:flex-row gap-x-2 w-[234px] items-center justify-center">
               <img src={icon2} className="w-10 h-10" alt="" />
               <div className="flex flex-col">
-                <h3 className="font-medium text-lg">Quà tặng hấp dẫn </h3>
-                <p>Nhiều ưu đãi khuyến mãi hot</p>
+                <h3 className="font-medium text-lg text-center xl:text-left">Quà tặng hấp dẫn </h3>
+                <p className="text-sm">Nhiều ưu đãi khuyến mãi hot</p>
               </div>
             </div>
-            <div className="flex gap-x-2 items-center">
+            <div className="flex flex-col xl:flex-row gap-x-2 w-[234px] items-center justify-center">
               <img src={icon3} className="w-10 h-10" alt="" />
               <div className="flex flex-col">
-                <h3 className="font-medium text-lg">Bảo đảm chất lượng</h3>
-                <p>Sản phẩm đã được kiểm định</p>
+                <h3 className="font-medium text-lg text-center xl:text-left">Bảo đảm chất lượng</h3>
+                <p className="text-sm">Sản phẩm đã được kiểm định</p>
               </div>
             </div>
-            <div className="flex gap-x-2 items-center">
+            <div className="flex flex-col xl:flex-row gap-x-2 w-[234px] items-center justify-center">
               <img src={icon4} className="w-10 h-10" alt="" />
               <div className="flex flex-col">
-                <h3 className="font-medium text-lg">Hotline: 0964838828</h3>
-                <p>Dịch vụ hỗ trợ bạn 24/7</p>
+                <h3 className="font-medium text-lg text-center xl:text-left">Hotline: 0964838828</h3>
+                <p className="text-sm">Dịch vụ hỗ trợ bạn 24/7</p>
               </div>
             </div>
           </div>
@@ -170,9 +169,9 @@ const Home = () => {
             <h3 className="text-5xl text-center font-light">
               Thời trang PAPKA
             </h3>
-            <div className="flex flex-nowrap gap-x-16 mt-9 overflow-x-auto max-w-full">
+            <div className="flex flex-nowrap gap-x-16 mt-9 overflow-x-auto justify-between">
               <Link to={""} className="p-1">
-                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap flex-shrink-0 flex-grow-0 basis-[40%]">
+                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap w-[150px]">
                   <img className="object-cover transition-transform duration-700 transform hover:scale-105" src={category1} alt="" />
                   <div>
                     <h3 className="text-xl">Áo nam</h3>
@@ -181,7 +180,7 @@ const Home = () => {
                 </div>
               </Link>
               <Link to={""} className="p-1">
-                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap">
+                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap w-[150px]">
                   <img className="object-cover transition-transform duration-700 transform hover:scale-105" src={category2} alt="" />
                   <div>
                     <h3 className="text-xl">Áo thun nữ</h3>
@@ -190,7 +189,7 @@ const Home = () => {
                 </div>
               </Link>
               <Link to={""} className="p-1">
-                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap">
+                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap w-[150px]">
                   <img className="object-cover transition-transform duration-700 transform hover:scale-105" src={category3} alt="" />
                   <div>
                     <h3 className="text-xl">Quần nam</h3>
@@ -199,7 +198,7 @@ const Home = () => {
                 </div>
               </Link>
               <Link to={""} className="p-1">
-                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap">
+                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap w-[150px]">
                   <img className="object-cover transition-transform duration-700 transform hover:scale-105" src={category4} alt="" />
                   <div>
                     <h3 className="text-xl">Đầm</h3>
@@ -208,7 +207,7 @@ const Home = () => {
                 </div>
               </Link>
               <Link to={""} className="p-1">
-                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap">
+                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap w-[150px]">
                   <img className="object-cover transition-transform duration-700 transform hover:scale-105" src={category5} alt="" />
                   <div>
                     <h3 className="text-xl">Quần nữ</h3>
@@ -217,7 +216,7 @@ const Home = () => {
                 </div>
               </Link>
               <Link to={""} className="p-1">
-                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap">
+                <div className="flex gap-y-3 flex-col justify-center items-center flex-nowrap w-[150px]">
                   <img className="object-cover transition-transform duration-700 transform hover:scale-105" src={category6} alt="" />
                   <div>
                     <h3 className="text-xl">Quần thu nam</h3>
