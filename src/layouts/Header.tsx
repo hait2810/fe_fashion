@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/images/logo.webp";
 const Header = () => {
   return (
-    <header className="h-auto w-full relative ml-[-50vw] mr-[-50vw] right-[50%] left-[50%] py-[15px]">
+    <header className="h-auto w-full py-[15px] fixed z-10 bg-white shadow-lg">
       <div className="flex justify-between items-center max-w-[1320px] mx-auto px-4">
         <div>
           <Link to={"/"}>
