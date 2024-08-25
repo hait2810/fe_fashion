@@ -12,20 +12,20 @@ const Header = () => {
         </div>
         <nav>
           <ul className="flex items-center gap-x-4 text-xl font-normal transition-all ease-in duration-500">
-            <li className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500">
-              <Link to="">Trang chủ</Link>
+            <li>
+              <Link className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="">Trang chủ</Link>
             </li>
-            <li className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500">
-              <Link to="">Nam</Link>
+            <li>
+              <Link className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="">Nam</Link>
             </li>
-            <li className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500">
-              <Link to="">Nữ</Link>
+            <li>
+              <Link className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="">Nữ</Link>
             </li>
-            <li className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500">
-              <Link to="">Sản phẩm khuyến mãi</Link>
+            <li>
+              <Link className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="">Sản phẩm khuyến mãi</Link>
             </li>
-            <li className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500">
-              <Link to="/intro">Giới thiệu</Link>
+            <li>
+              <Link className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="/intro">Giới thiệu</Link>
             </li>
           </ul>
         </nav>
