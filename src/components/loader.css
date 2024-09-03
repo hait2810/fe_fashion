@@ -5,7 +5,7 @@
     --text: #6C7486;
     --page: rgba(255, 255, 255, 0.36);
     --page-fold: rgba(255, 255, 255, 0.52);
-    --duration: 3s;
+    --duration: 1s;
     width: 200px;
     height: 140px;
     position: relative;
