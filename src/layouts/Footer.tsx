@@ -15,7 +15,7 @@ const Footer = () => {
                     <div className="flex items-center gap-x-3">
                         <CiPhone className="flex-grow-0 flex-shrink-0 basis-[20px]" />
                         <div>
-                            Số điện thoại:  <Link className="hover:text-blue-500 cursor-pointer hover:font-bold" to="tel:+849876543210">09876543210</Link>
+                            Số điện thoại:  <Link className="hover:text-blue-500 hover:font-bold cursor-pointer" to="tel:+849876543210">09876543210</Link>
                         </div>
                     </div>
                     <div className="flex items-center gap-x-3">

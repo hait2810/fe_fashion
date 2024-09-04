@@ -50,8 +50,8 @@ const Header = () => {
           </div>
 
         </div>
-        <nav className={`hidden max-lg:block bg-white h-[100vh] absolute top-20 bottom-0 left-0 ${isOpenMenu ? 'right-0 opacity-100' : 'right-[300px] opacity-0'} right-0 border-t-2 border-blue-300 transition-all ease-in duration-200`}>
-          <ul className="container mx-auto px-4 pt-4 flex flex-col  gap-2 text-xl font-normal transition-all ease-in duration-500">
+        <nav className={`hidden max-lg:block bg-white h-fit absolute top-20 bottom-0 left-0 ${isOpenMenu ? 'right-0 opacity-100' : 'right-[300px] opacity-0 !h-0'} right-0 border-t-2 border-blue-300 transition-all ease-in duration-200`}>
+          <ul className={`container mx-auto px-4 pt-4 flex flex-col  gap-2 text-xl font-normal transition-all ease-in duration-500 ${!isOpenMenu && 'hidden'}`}>
             <li>
               <Link onClick={() => setIsOpenMenu(false)} className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="">Trang chủ</Link>
             </li>
@@ -68,7 +68,7 @@ const Header = () => {
               <Link onClick={() => setIsOpenMenu(false)} className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="/gioi-thieu">Giới thiệu</Link>
             </li>
             <li>
-              <div className="mt-4">
+              <div className="my-4">
                 <Link
                   onClick={() => setIsOpenMenu(false)}
                   to="#"
