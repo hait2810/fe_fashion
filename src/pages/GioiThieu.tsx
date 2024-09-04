@@ -1,7 +1,7 @@
 import { Breadcrumbs, Link, Typography } from "@mui/material"
 import { BiHome } from "react-icons/bi"
 
-const Intro = () => {
+const GioiThieu = () => {
     return <div className="container mx-auto max-lg:px-4">
         <Breadcrumbs className="pt-6" aria-label="breadcrumb">
             <Link
@@ -39,4 +39,4 @@ const Intro = () => {
         </div>
     </div>
 }
-export default Intro
+export default GioiThieu

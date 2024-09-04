@@ -32,7 +32,7 @@ const Footer = () => {
                 </div>
                 <div className="item flex flex-col text-white gap-3 text-lg">
                     <h3 className="text-white font-medium text-2xl">Hướng dẫn</h3>
-                    <Link className="hover:text-blue-500" to="">Hướng dẫn mua hàng</Link>
+                    <Link className="hover:text-blue-500" to="/huong-dan-mua-hang">Hướng dẫn mua hàng</Link>
                     <Link className="hover:text-blue-500" to="">Hướng dẫn chọn size</Link>
                     <Link className="hover:text-blue-500" to="">Hướng dẫn bảo quản
                     </Link>
@@ -45,7 +45,7 @@ const Footer = () => {
                 <div className="item flex flex-col text-white gap-3 text-lg">
                     <h3 className="text-white font-medium text-2xl">Hỗ trợ khách hàng</h3>
                     <Link className="hover:text-blue-500" to="/">Trang chủ</Link>
-                    <Link className="hover:text-blue-500" to="/intro">Về PAPKA</Link>
+                    <Link className="hover:text-blue-500" to="/gioi-thieu">Về PAPKA</Link>
                     <Link className="hover:text-blue-500" to="">Bộ Sưu Tập</Link>
                     <Link className="hover:text-blue-500" to="">Kiểm tra đơn hàng</Link>
                 </div>

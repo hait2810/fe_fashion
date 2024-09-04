@@ -28,7 +28,7 @@ const Header = () => {
                 <Link className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="">Sản phẩm khuyến mãi</Link>
               </li>
               <li>
-                <Link className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="/intro">Giới thiệu</Link>
+                <Link className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="/gioi-thieu">Giới thiệu</Link>
               </li>
             </ul>
           </nav>
@@ -37,7 +37,7 @@ const Header = () => {
               to="#"
               className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-black font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1"
             >
-              Contact <HiAnnotation />
+              Contact <HiAnnotation className="text-[#000000b3]"/>
             </Link>
           </div>
           <div className="hidden max-lg:block">
@@ -65,7 +65,7 @@ const Header = () => {
               <Link onClick={() => setIsOpenMenu(false)} className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="">Sản phẩm khuyến mãi</Link>
             </li>
             <li>
-              <Link onClick={() => setIsOpenMenu(false)} className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="/intro">Giới thiệu</Link>
+              <Link onClick={() => setIsOpenMenu(false)} className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500" to="/gioi-thieu">Giới thiệu</Link>
             </li>
             <li>
               <div className="mt-4">
@@ -74,7 +74,7 @@ const Header = () => {
                   to="#"
                   className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-black font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1 w-fit"
                 >
-                  Contact <HiAnnotation />
+                  Contact <HiAnnotation className="text-[#000000b3]" />
                 </Link>
               </div>
             </li>
