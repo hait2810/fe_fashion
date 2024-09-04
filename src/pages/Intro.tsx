@@ -22,7 +22,7 @@ const Intro = () => {
                 Giới thiệu
             </Typography>
         </Breadcrumbs>
-        <div className="mt-10 flex flex-col gap-2 text-lg">
+        <div className="my-10 flex flex-col gap-2 text-lg">
             <h3 className="text-3xl font-normal">Giới thiệu</h3>
             <p><span className="font-medium">Thương hiệu PAPKA FASHION</span> (thuộc CTY TNHH Đầu Tư và Thương Mại Minh Gia Phú) mang đến một phong cách thời trang năng động, cá tính dành cho giới trẻ.
             </p>
