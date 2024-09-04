@@ -23,7 +23,7 @@ const ProductDisplay = ({ tab }: { tab: string }) => {
           <img src="https://product.hstatic.net/1000235488/product/1045_9_ae47b370893f4dcc807b41b13dfe191e_large.jpg" className="mx-auto p-2 hover:scale-95 cursor-pointer transition-all duration-500 ease-in" alt="" />
         </div>
         <div className="mt-2">
-          <Link to={""}><h3 className="text-xl z-40 font-semibold text-[#0000009c] hover:text-blue-500">Áo nam Papka 1045 xanh biển</h3></Link>
+          <Link to={`/san-pham/123`}><h3 className="text-xl z-40 font-semibold text-[#0000009c] hover:text-blue-500">Áo nam Papka 1045 xanh biển</h3></Link>
           <p className="font-medium text-red-500">{formatCurrency(199000)}</p>
           <div className="flex gap-x-4">
             <span className="line-through text-gray-400">
@@ -93,7 +93,6 @@ const ProductDisplay = ({ tab }: { tab: string }) => {
 const MemClothing = () => {
   const [value, setValue] = useState('aothun');
   const handleChange = (_event: SyntheticEvent, newValue: string) => {
-    console.log(newValue);
     setValue(newValue);
   };
 
@@ -110,7 +109,6 @@ const MemClothing = () => {
 const WomenClothing = () => {
   const [value, setValue] = useState('aothun');
   const handleChange = (_event: SyntheticEvent, newValue: string) => {
-    console.log(newValue);
     setValue(newValue);
   };
 

@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 const Layout = lazy(() => import('../layouts/Layout'))
 const Home = lazy(() => import('../pages/Home'))
 const GioiThieu = lazy(() => import('../pages/GioiThieu'))
+const ChiTietSanPham = lazy(() => import('../pages/ChiTietSanPham'))
 const HuongDanMuaHang = lazy(() => import('../pages/HuongDanMuaHang'))
 export const Router = () => {
   return (
@@ -11,6 +12,10 @@ export const Router = () => {
         <Route index element={<Home />} />
         <Route path="gioi-thieu" element={<GioiThieu />} />
         <Route path="huong-dan-mua-hang" element={<HuongDanMuaHang />} />
+      </Route>
+      <Route path="san-pham/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path=":id" element={<ChiTietSanPham />} />
       </Route>
     </Routes>
   );

@@ -35,9 +35,9 @@ const Header = () => {
           <div className="max-lg:!hidden">
             <Link
               to="#"
-              className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-black font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1"
+              className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-[#000000b3] font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1"
             >
-              Contact <HiAnnotation className="text-[#000000b3]"/>
+              Contact <HiAnnotation className="hover:text-white"/>
             </Link>
           </div>
           <div className="hidden max-lg:block">
@@ -72,9 +72,9 @@ const Header = () => {
                 <Link
                   onClick={() => setIsOpenMenu(false)}
                   to="#"
-                  className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-black font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1 w-fit"
+                  className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-[#000000b3] font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1 w-fit"
                 >
-                  Contact <HiAnnotation className="text-[#000000b3]" />
+                  Contact <HiAnnotation/>
                 </Link>
               </div>
             </li>
