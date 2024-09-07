@@ -6,6 +6,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./layouts/Footer";
 import Header from "./layouts/Header";
 import { Router } from "./routes/Router";
+import { Toaster } from "sonner";
 const queryClient = new QueryClient()
 function App() {
   const theme = createTheme({
@@ -16,6 +17,7 @@ function App() {
     },
   });
   return <QueryClientProvider client={queryClient}>
+    <Toaster position="top-center" closeButton/>
     <ThemeProvider theme={theme}>
       <Suspense fallback={<>
         <Header />

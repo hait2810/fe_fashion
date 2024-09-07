@@ -4,6 +4,7 @@ import { BiHome } from "react-icons/bi";
 import { HiMinusSm, HiOutlinePlusSm } from "react-icons/hi";
 import { MdExpandMore } from "react-icons/md";
 import { Link as LinkA } from "react-router-dom";
+import { toast } from "sonner";
 import { formatCurrency } from "../utils/utils";
 
 
@@ -23,14 +24,24 @@ const ChiTietSanPham = () => {
         setValue,
         formState: { errors },
     } = useForm<IFormOrder>()
-    const onSubmit: SubmitHandler<IFormOrder> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<IFormOrder> = (data, event) => {
+        const buttonClicked = event?.target?.name;
+        console.log("--------", buttonClicked, data);
     }
+
+    if (errors) {
+        Object.keys(errors).forEach((key) => {
+            const error = errors[key as 'size' | 'quantity'];
+            if (error) {
+                toast.error(error.message);
+            }
+        });
+    }
+
     const size = useWatch({
         control,
         name: 'size'
     })
-    console.log(errors);
 
     return <div className="container mx-auto p-4">
         <Breadcrumbs className="pt-6" aria-label="breadcrumb">
@@ -75,7 +86,7 @@ const ChiTietSanPham = () => {
                     <span>MSP: <span className="font-medium">QH012013</span></span>
                 </div>
                 <p className="font-medium text-xl border-b-2">{formatCurrency(289912)}</p>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form >
                     <div>
                         <span className="text-xl font-medium">Kích thước: <span className="text-red-500">{size}</span> </span>
                         <div className="flex flex-wrap gap-2 my-2">
@@ -99,10 +110,11 @@ const ChiTietSanPham = () => {
                                     setValue('quantity', Number(getValues('quantity')) + 1)
                                 }} />
                             </div>
-                            <button className="py-2 px-4 max-w-full w-full rounded-md bg-white text-red-500 outline-none border-[#ff8d22c9] border-[1px] hover:bg-[#ff8d22c9] hover:text-white font-medium" type="button">THÊM ĐƠN HÀNG</button>
+                            <button name="add"  onClick={handleSubmit(onSubmit)} className="py-2 px-4 max-w-full w-full rounded-md bg-white text-red-500 outline-none border-[#ff8d22c9] border-[1px] hover:bg-[#ff8d22c9] transition-all duration-200 ease-linear hover:text-white font-medium" type="button">THÊM ĐƠN HÀNG</button>
                         </div>
                     </div>
-                    <button type="submit" className="outline-none w-full bg-red-500 rounded-md py-3 mt-5 text-white">MUA NGAY</button>
+                    <button type="submit" name="buy" onClick={handleSubmit(onSubmit)
+                    } className="outline-none w-full bg-red-500 rounded-md py-3 mt-5 text-white hover:bg-gray-500 transition-all duration-200 ease-linear">MUA NGAY</button>
                     <div className="mt-4">
                         <Accordion defaultExpanded>
                             <AccordionSummary
@@ -219,23 +231,23 @@ const ChiTietSanPham = () => {
                                 </span>
                                 <span>
                                     3.2/ Cùng mã sản phẩm (chỉ đổi size, đổi màu): cùng giá, không bù tiền
-                                </span>               
+                                </span>
                                 <span>3.3/ Đổi khác mã sản phẩm: </span>
                                 <span>- Giá trị SP mới tại thời điểm đổi hàng lớn hơn Giá trị SP cũ (dựa theo giá trị trên hóa đơn thanh toán): khách hàng sẽ bù thêm tiền phần chênh lệch. Ví dụ: SP mua với giá 250.000d . SP muốn đổi giá trị 300.000d &gt; KH sẽ bù 50.000d.</span>
-                                <span>- Giá trị SP mới tại thời điểm đổi hàng nhỏ hơn Giá trị SP cũ (dựa trên giá trị trên hóa đơn thanh toán): PAPKA sẽ KHÔNG hoàn lại tiền thừa.</span>  
+                                <span>- Giá trị SP mới tại thời điểm đổi hàng nhỏ hơn Giá trị SP cũ (dựa trên giá trị trên hóa đơn thanh toán): PAPKA sẽ KHÔNG hoàn lại tiền thừa.</span>
                                 <span>
-                                Ví dụ: SP mua với giá 250.000d, SP muốn đổi giá trị 200.000d ={">"} PAPKA sẽ KHÔNG hoàn lại 50.000d cho khách hàng.
+                                    Ví dụ: SP mua với giá 250.000d, SP muốn đổi giá trị 200.000d ={">"} PAPKA sẽ KHÔNG hoàn lại 50.000d cho khách hàng.
                                 </span>
                                 <strong>
-                                Lưu ý: 
+                                    Lưu ý:
                                 </strong>
                                 <span>
-                                - Online: khách hàng gửi hình ảnh hoặc sản phẩm về cho kho hàng online
+                                    - Online: khách hàng gửi hình ảnh hoặc sản phẩm về cho kho hàng online
                                 </span>
                                 <span>+ Sản phẩm do lỗi sản xuất: mọi chi phí vận chuyển trả hàng do PAPKA chi trả.</span>
                                 <span>+ Lý do khác: mọi chi phí vận chuyển do khách hàng chi trả.
                                 </span>
-                                           </AccordionDetails>
+                            </AccordionDetails>
                         </Accordion>
                     </div>
                 </form>
