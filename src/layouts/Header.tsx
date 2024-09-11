@@ -70,7 +70,7 @@ const Header = () => {
             >
               Contact <HiAnnotation className="hover:text-white"/>
             </Link> */}
-            <div className="user relative">
+            <div className="user relative cursor-pointer">
             <AiOutlineUsergroupAdd  className="w-8 h-8"/>
             </div>
             <Link to={"/cart"} className="bag relative cursor-pointer">
@@ -81,20 +81,26 @@ const Header = () => {
             </Link>
 
           </div>
-          <div className="hidden max-lg:block">
+          <div className="hidden max-lg:flex max-lg:items-center gap-x-5">
+          <Link to={"/cart"} className="bag relative cursor-pointer">
+              <IoBagHandleOutline className="w-6 h-6" />
+              <div className="absolute left-[1.2rem] right-0 top-[-2px] text-[] bottom-0 z-10 bg-red-500 w-[18px] h-[18px] p-1 flex justify-center items-center rounded-full text-white">
+                <span>{formatNumber(99)}</span>
+              </div>
+            </Link>
             {isOpenMenu ? (
               <HiOutlineX
                 onClick={() => {
                   setIsOpenMenu(false);
                 }}
-                className="cursor-pointer"
+                className="w-6 h-6 cursor-pointer"
               />
             ) : (
               <HiOutlineMenu
                 onClick={() => {
                   setIsOpenMenu(true);
                 }}
-                className="cursor-pointer"
+                className="w-6 h-6 cursor-pointer"
               />
             )}
           </div>
