@@ -14,7 +14,7 @@ import category6 from "../assets/images/season_coll_6_img_large.webp";
 import Banner from "../layouts/Banner";
 import { formatCurrency } from "../utils/utils";
 
-const ProductDisplay = ({ tab }: { tab: string }) => {
+export const ProductDisplay = ({ tab }: { tab: string }) => {
   console.log(tab);
   return <div className="mt-4">
     <div className="grid grid-cols-1 p-2 md:grid-cols-2 md:p-0 lg:p-0 lg:grid-cols-4 gap-3">

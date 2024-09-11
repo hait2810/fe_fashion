@@ -253,6 +253,9 @@ const ChiTietSanPham = () => {
                 </form>
             </div>
         </div>
+        <div className="my-4">
+        <h3 className="text-2xl font-medium">Sản phẩm liên quan</h3>
+      </div>
     </div>
 }
 export default ChiTietSanPham
