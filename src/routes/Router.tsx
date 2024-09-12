@@ -8,6 +8,7 @@ const HuongDanMuaHang = lazy(() => import('../pages/HuongDanMuaHang'))
 const NotFound = lazy(() => import('../pages/NotFound'))
 const Header = lazy(() => import('../layouts/Header'))
 const Footer = lazy(() => import('../layouts/Footer'))
+const GioHang = lazy(() => import('../pages/GioHang'))
 export const Router = () => {
   return (
     <Routes>
@@ -15,6 +16,7 @@ export const Router = () => {
         <Route index element={<Home />} />
         <Route path="gioi-thieu" element={<GioiThieu />} />
         <Route path="huong-dan-mua-hang" element={<HuongDanMuaHang />} />
+        <Route path="gio-hang" element={<GioHang />} />
       </Route>
       <Route path="san-pham/" element={<Layout />}>
         <Route index element={<Home />} />

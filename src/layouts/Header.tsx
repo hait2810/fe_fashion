@@ -77,7 +77,7 @@ const Header = () => {
                 </ul>
               </div>
             </div>
-            <Link to={"/cart"} className="bag relative cursor-pointer">
+            <Link to={"/gio-hang"} className="bag relative cursor-pointer">
               <IoBagHandleOutline className="w-8 h-8" />
               <div className="absolute left-[1.5rem] right-0 top-[-2px] bottom-0 z-10 bg-red-500 w-[22px] h-[22px] p-1 flex justify-center items-center rounded-full text-white">
                 <span>{formatNumber(99)}</span>
@@ -85,7 +85,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="hidden max-lg:flex max-lg:items-center gap-x-5">
-            <Link to={"/cart"} className="bag relative cursor-pointer">
+          <Link to={"/gio-hang"} className="bag relative cursor-pointer">
               <IoBagHandleOutline className="w-6 h-6" />
               <div className="absolute left-[1.2rem] right-0 top-[-2px] text-[] bottom-0 z-10 bg-red-500 w-[18px] h-[18px] p-1 flex justify-center items-center rounded-full text-white">
                 <span>{formatNumber(99)}</span>
