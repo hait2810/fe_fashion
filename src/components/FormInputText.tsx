@@ -4,8 +4,9 @@ interface FormInputProps {
   name: string,
   label: string,
   className?: string
+  size?: "small" | "medium"
 }
-export const FormInputText = ({ name, label, className }: FormInputProps) => {
+export const FormInputText = ({ name, label, className, size }: FormInputProps) => {
   const { control } = useFormContext()
   return (
     <Controller
@@ -17,7 +18,7 @@ export const FormInputText = ({ name, label, className }: FormInputProps) => {
       }) => (
         <TextField
           helperText={error ? error.message : null}
-          size="small"
+          size={size}
           error={!!error}
           onChange={onChange}
           className={className}

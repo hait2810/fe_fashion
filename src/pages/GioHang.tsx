@@ -27,14 +27,14 @@ const GioHang = () => {
       </Typography>
     </Breadcrumbs>
     <h3 className="text-3xl font-normal my-4">Giỏ hàng</h3>
-    <div className="grid grid-cols-[70%_1fr] max-lg:grid-cols-[1fr] my-6 gap-10">
+    <div className="grid grid-cols-[70%_1fr] max-xl:grid-cols-[1fr] my-6 gap-10">
       <div className="items flex flex-col gap-2 max-h-[500px] overflow-y-auto">
         <div className="item flex items-center gap-x-4">
           <div className="flex gap-x-4 items-center">
             <button type="button"><IoIosClose className="h-7 w-7 text-gray-400" /></button>
             <img className="max-h-32 max-w-32 max-lg:w-20 max-lg:h-20" src="https://product.hstatic.net/1000235488/product/1123_soc_be_7b561dcc8fde49b891c87f7be3c86190_compact.png" alt="" />
           </div>
-          <div className="flex gap-x-2 justify-between max-lg:flex-col">
+          <div className="flex gap-x-16 justify-between max-lg:flex-col">
             <div className="flex flex-col">
               <ActionLink className="text-xl hover:text-blue-400 outline-none" to="">Áo sơ mi Nam tay ngắn Papka 1123 sọc be</ActionLink>
               <span className="text-gray-400">XXL</span>
