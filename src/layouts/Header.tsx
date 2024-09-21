@@ -69,10 +69,10 @@ const Header = () => {
               <div className="opacity-0 group-hover:opacity-100 transition-all duration-200 ease-in absolute top-11 bottom-0 left-[-30px] right-0 before:bg-inherit before:content-[''] before:absolute before:w-[100%] before:h-[10px] before:left-[10px] after:bg-[#333333] after:content-[''] after:h-[14px] after:absolute after:w-[14px] after:top-[-7px] after:left-10 after:transform after:rotate-45">
                 <ul className="inline-block w-max bg-[#333] text-white py-2 px-3 rounded-md">
                   <li>
-                    <Link to={"/signin"}>Đăng nhập</Link>
+                    <Link to={"/dang-nhap"}>Đăng nhập</Link>
                   </li>
                   <li>
-                    <Link to={"/signup"}>Đăng ký</Link>
+                    <Link to={"/dang-ky"}>Đăng ký</Link>
                   </li>
                 </ul>
               </div>
