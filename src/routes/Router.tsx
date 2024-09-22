@@ -12,6 +12,9 @@ const GioHang = lazy(() => import('../pages/GioHang'))
 const DatHang = lazy(() => import('../pages/DatHang'))
 const DangNhap = lazy(() => import('../pages/DangNhap'))
 const DangKy = lazy(() => import('../pages/DangKy'))
+const LayoutAdmin = lazy(() => import('../layouts/admin/Layout'))
+const CategoryList = lazy(() => import('../pages/admin/category/CategoryList'))
+
 export const Router = () => {
   return (
     <Routes>
@@ -28,11 +31,15 @@ export const Router = () => {
         <Route index element={<Home />} />
         <Route path=":id" element={<ChiTietSanPham />} />
       </Route>
-      <Route path='*'  element={<>
+      <Route path="admin/" element={<LayoutAdmin />}>
+        <Route index element={"Chào mừng bạn tới trang quản trị"} />
+        <Route path="category" element={<CategoryList />} />
+      </Route>
+      <Route path='*' element={<>
         <Header />
         <NotFound />
         <Footer />
-        </>} />
+      </>} />
     </Routes>
   );
 };

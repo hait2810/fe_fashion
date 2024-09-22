@@ -5,8 +5,9 @@ interface FormInputProps {
   label: string,
   className?: string
   size?: "small" | "medium"
+  type?: React.HTMLInputTypeAttribute
 }
-export const FormInputText = ({ name, label, className, size }: FormInputProps) => {
+export const FormInputText = ({ name, label, className, size, type }: FormInputProps) => {
   const { control } = useFormContext()
   return (
     <Controller
@@ -20,6 +21,7 @@ export const FormInputText = ({ name, label, className, size }: FormInputProps) 
           helperText={error ? error.message : null}
           size={size}
           error={!!error}
+          type={type}
           onChange={onChange}
           className={className}
           value={value}

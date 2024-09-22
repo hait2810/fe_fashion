@@ -18,6 +18,7 @@ export default tseslint.config({
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
+    "@typescript-eslint/no-explicit-any": "off", // Tắt cảnh báo cho việc sử dụng 'any'
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

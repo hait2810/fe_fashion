@@ -1,11 +1,14 @@
+import { Button } from '@mui/material';
 import { useState } from 'react';
-import { HiAnnotation, HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
+import { IoBagHandleOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/logo.webp';
-import { IoBagHandleOutline } from 'react-icons/io5';
+import useUserStore from '../store/userStore';
 import { formatNumber } from '../utils/utils';
-import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 const Header = () => {
+  const { data, clearUser } = useUserStore()
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   return (
     <>
@@ -68,12 +71,18 @@ const Header = () => {
               <AiOutlineUsergroupAdd className="w-8 h-8" />
               <div className="opacity-0 group-hover:opacity-100 transition-all duration-200 ease-in absolute top-11 bottom-0 left-[-30px] right-0 before:bg-inherit before:content-[''] before:absolute before:w-[100%] before:h-[10px] before:left-[10px] after:bg-[#333333] after:content-[''] after:h-[14px] after:absolute after:w-[14px] after:top-[-7px] after:left-10 after:transform after:rotate-45">
                 <ul className="inline-block w-max bg-[#333] text-white py-2 px-3 rounded-md">
-                  <li>
-                    <Link to={"/dang-nhap"}>Đăng nhập</Link>
-                  </li>
-                  <li>
-                    <Link to={"/dang-ky"}>Đăng ký</Link>
-                  </li>
+                  {data?.username ? <div className='flex flex-col p-1'>
+                    <p>{data.fullname}</p>
+                    <Link className='hover:text-blue-500' to={"/admin"}>Trang quản trị</Link>
+                    <Button onClick={clearUser} variant='contained' size='small'>Đăng xuất</Button>
+                  </div> : <>
+                    <li>
+                      <Link to={"/dang-nhap"}>Đăng nhập</Link>
+                    </li>
+                    <li>
+                      <Link to={"/dang-ky"}>Đăng ký</Link>
+                    </li>
+                  </>}
                 </ul>
               </div>
             </div>
@@ -109,14 +118,12 @@ const Header = () => {
           </div>
         </div>
         <nav
-          className={`hidden max-lg:block bg-white h-fit absolute top-20 bottom-0 left-0 ${
-            isOpenMenu ? 'right-0 opacity-100' : 'right-[300px] opacity-0 !h-0'
-          } right-0 border-t-2 border-blue-300 transition-all ease-in duration-200`}
+          className={`hidden max-lg:block bg-white h-fit absolute top-20 bottom-0 left-0 ${isOpenMenu ? 'right-0 opacity-100' : 'right-[300px] opacity-0 !h-0'
+            } right-0 border-t-2 border-blue-300 transition-all ease-in duration-200`}
         >
           <ul
-            className={`container mx-auto px-4 pt-4 flex flex-col  gap-2 text-xl font-normal transition-all ease-in duration-500 ${
-              !isOpenMenu && 'hidden'
-            }`}
+            className={`container mx-auto px-4 py-4 flex flex-col  gap-2 text-xl font-normal transition-all ease-in duration-500 ${!isOpenMenu && 'hidden'
+              }`}
           >
             <li>
               <Link
@@ -164,26 +171,29 @@ const Header = () => {
               </Link>
             </li>
             <li>
-            <Link
-                onClick={() => setIsOpenMenu(false)}
-                className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-                to="/dang-nhap"
+              {data?.username ? <div className="my-4">
+              <Link
+                onClick={() => {
+                  setIsOpenMenu(false)
+                  clearUser()
+                }}
+                to="#"
+                className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-[#000000b3] font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1 w-fit"
               >
-                Đăng nhập
+                Đăng xuất
               </Link>
-              <div className="my-4">
-                <Link
-                  onClick={() => setIsOpenMenu(false)}
-                  to="#"
-                  className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-[#000000b3] font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1 w-fit"
-                >
-                  Đăng xuất 
-                </Link>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </header>
+            </div>  : <Link
+              onClick={() => setIsOpenMenu(false)}
+              className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
+              to="/dang-nhap"
+            >
+              Đăng nhập
+            </Link>}
+
+          </li>
+        </ul>
+      </nav>
+    </header >
     </>
   );
 };
