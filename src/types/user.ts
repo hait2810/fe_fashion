@@ -4,4 +4,5 @@ export type User = {
   password?: string;
   fullname?: string;
   role?: string;
+  avatar?:string
 };
