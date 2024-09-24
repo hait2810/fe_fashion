@@ -1,19 +1,36 @@
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
-import { GetList } from '../../../api/cateogry';
 import React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { FormProvider, useForm } from 'react-hook-form';
+import { GetList, ICategory } from '../../../api/cateogry';
+import { FormInputText } from '../../../components/FormInputText';
 
-
-const FormDisplay = () => { 
-    const [open, setOpen] = React.useState(false);
-
+const FormDisplay = ({ data }: { data: ICategory[] }) => {
+  console.log(data);
+  
+  const [open, setOpen] = React.useState(false);
+  const methods = useForm();
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmitForm = async (data: ICategory) => {
+    try {
+      console.log(data);
+    } catch (error: any) {
+      console.error(error);
+    }
   };
 
   return (
@@ -23,6 +40,7 @@ const FormDisplay = () => {
       </Button>
       <Dialog
         open={open}
+        fullWidth
         onClose={handleClose}
         PaperProps={{
           component: 'form',
@@ -36,34 +54,32 @@ const FormDisplay = () => {
           },
         }}
       >
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Thêm mới</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="email"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
+          <FormProvider {...methods}>
+            <form id='addcategory' onSubmit={methods.handleSubmit(handleSubmitForm)}>
+              <div className="flex flex-col gap-4 mt-2">
+                <FormInputText size="small" label="Tên danh mục" name="name" />
+                <FormInputText
+                  type="password"
+                  size="small"
+                  label="Mật khẩu"
+                  name="password"
+                />
+              </div>
+            </form>
+          </FormProvider>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Subscribe</Button>
+          <Button onClick={handleClose}>Đóng</Button>
+          <Button onClick={methods.handleSubmit(handleSubmitForm)} type="button">Thêm mới</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
   );
-}
+};
 
-const ParentDisplay = ({ data, id }: { data?: any[]; id?: string }) => {
+const ParentDisplay = ({ data, id }: { data?: ICategory[]; id?: string }) => {
   const category = data?.find((item) => item._id === id);
   return category?.name;
 };
@@ -89,14 +105,13 @@ const CategoryList = () => {
       field: 'action',
       headerName: 'Tác động',
       hideSortIcons: true,
-     
     },
   ];
 
   return (
     <>
       <h3 className="text-2xl mb-8">Danh sách danh mục</h3>
-      <FormDisplay />
+      <FormDisplay data={data?.data || []} />
       <DataGrid
         rows={data?.data}
         getRowId={(row) => row?._id}
