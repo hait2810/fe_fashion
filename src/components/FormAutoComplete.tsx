@@ -1,7 +1,7 @@
 import { Autocomplete, CircularProgress, FormHelperText, TextField } from "@mui/material";
 import { Controller, FieldError, useFormContext } from "react-hook-form";
 
-interface OptionType {
+export interface OptionType {
   label: string;
   code: number | string;
 }
@@ -13,10 +13,11 @@ interface AutoCompleteProps {
   defaultValue?: string | number;
   className?: string;
   size?: "small" | "medium";
-  loading?: boolean
+  loading?: boolean;
+  variant?: 'filled' | 'outlined' | 'standard'
 }
 
-export const FormAutoComplete = ({ options, label, name, defaultValue, className, size, loading }: AutoCompleteProps) => {
+export const FormAutoComplete = ({ options, label, name, defaultValue, className, size, loading, variant='outlined' }: AutoCompleteProps) => {
   const { control, formState: { errors } } = useFormContext();
   const errorMessage = errors[name] && (errors[name] as FieldError).message;
   return (
@@ -32,26 +33,27 @@ export const FormAutoComplete = ({ options, label, name, defaultValue, className
             options={options}
             value={options.find(option => option.code === field.value) || null}
             getOptionLabel={(option: OptionType) => option?.label || ""}
-            onChange={(_, data) => field.onChange(data?.code || "")} 
+            onChange={(_, data) => field.onChange(data?.code || "")}
             loading={loading}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label={label || ""}
                 size={size}
+                variant={variant}
                 error={!!errors[name]}
                 InputLabelProps={{
-                  shrink: field.value !== undefined && field.value !== "", 
+                  shrink: field.value !== undefined && field.value !== "",
                 }}
                 InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <>
-                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                        {params.InputProps.endAdornment}
-                      </>
-                    ),
-                  }}
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
               />
             )}
           />

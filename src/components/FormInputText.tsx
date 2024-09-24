@@ -6,8 +6,9 @@ interface FormInputProps {
   className?: string
   size?: "small" | "medium"
   type?: React.HTMLInputTypeAttribute
+  variant?: 'filled' | 'outlined' | 'standard'
 }
-export const FormInputText = ({ name, label, className, size, type }: FormInputProps) => {
+export const FormInputText = ({ name, label, className, size, type, variant = 'outlined' }: FormInputProps) => {
   const { control } = useFormContext()
   return (
     <Controller
@@ -27,7 +28,7 @@ export const FormInputText = ({ name, label, className, size, type }: FormInputP
           value={value}
           fullWidth
           label={label}
-          variant="outlined"
+          variant={variant}
         />
       )}
     />
