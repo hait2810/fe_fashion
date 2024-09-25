@@ -14,6 +14,7 @@ const DangNhap = lazy(() => import('../pages/DangNhap'))
 const DangKy = lazy(() => import('../pages/DangKy'))
 const LayoutAdmin = lazy(() => import('../layouts/admin/Layout'))
 const CategoryList = lazy(() => import('../pages/admin/category/CategoryList'))
+const ProductList = lazy(() => import('../pages/admin/products/ProductList'))
 
 export const Router = () => {
   return (
@@ -34,6 +35,7 @@ export const Router = () => {
       <Route path="admin/" element={<LayoutAdmin />}>
         <Route index element={"Chào mừng bạn tới trang quản trị"} />
         <Route path="category" element={<CategoryList />} />
+        <Route path="products" element={<ProductList />} />
       </Route>
       <Route path='*' element={<>
         <Header />

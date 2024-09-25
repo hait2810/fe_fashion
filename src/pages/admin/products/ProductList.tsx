@@ -6,16 +6,18 @@ import {
   DialogTitle,
   IconButton
 } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
-import { category, ICategory } from '../../../api/cateogry';
-import { FormInputText } from '../../../components/FormInputText';
-import { FormAutoComplete, OptionType } from '../../../components/FormAutoComplete';
-import { Upload } from '../../../api/upload';
-import { toast } from 'sonner';
 import { HiMiniArchiveBoxXMark, HiMiniWrench } from 'react-icons/hi2';
+import { toast } from 'sonner';
+import { category, ICategory } from '../../../api/cateogry';
+import { IProduct, products } from '../../../api/products';
+import { Upload } from '../../../api/upload';
+import { FormAutoComplete, OptionType } from '../../../components/FormAutoComplete';
+import { FormInputText } from '../../../components/FormInputText';
+import { FormAutoComplateMulti } from '../../../components/FormAutoComplateMulti';
 interface PropsForm {
   data: ICategory[]
 }
@@ -27,7 +29,7 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
   const [imagePreview, setImagePreview] = useState<string>('')
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const methods = useForm<ICategory>();
+  const methods = useForm<IProduct>();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -46,14 +48,25 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
       avatar: undefined,
       images: undefined,
       name: undefined,
-      parentId: undefined
+      categoryId: undefined,
+      description: undefined,
+      isDiscounted: undefined,
+      priceCurrent: 0,
+      priceOld: 0, 
+      sizes: undefined,
+      status: undefined
     })
     setOpen(false);
   };
   const avatar = useWatch({ control: methods.control, name: 'avatar' })
   const id = useWatch({ control: methods.control, name: '_id' })
-  const opt = data?.filter(item => !item.parentId && item._id !== id)
+  const opt = data?.filter(item => item.parentId)
     .map(item => ({ label: item.name, code: item._id })) as OptionType[];
+    const optSize = [
+      { label: 'S', code: 'S' },
+      { label: 'M', code: 'M' },
+      { label: 'L', code: 'L' },
+    ];
   const queryClient = useQueryClient()
   const handleSubmitForm = async (data: ICategory) => {
     setIsLoading(true)
@@ -65,12 +78,12 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
         data.avatar = upload?.url || ''
       }
       if (id) {
-        await category.update(id, data)
+        await products.update(id, data)
       } else {
-        await category.create(data)
+        await products.create(data)
       }
       queryClient.invalidateQueries({
-        queryKey: ['get_all_category']
+        queryKey: ['get_all_products']
       })
       toast.success(id ? "Cập nhật thành công!!!" : "Thêm thành công!!!")
     } catch (error: any) {
@@ -82,7 +95,7 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Thêm mới danh mục
+        Thêm mới sản phẩm
       </Button>
       <Dialog
         open={open}
@@ -94,8 +107,13 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
           <FormProvider {...methods}>
             <form id='addcategory' onSubmit={methods.handleSubmit(handleSubmitForm)}>
               <div className="flex flex-col gap-4 mt-2">
-                <FormInputText size="small" variant='standard' label="Tên danh mục" name="name" />
-                <FormAutoComplete variant='standard' name='parentId' label='Chọn danh mục cha' options={opt || []} />
+                <FormInputText size="small" variant='standard' label="Tên sản phẩm" name="name" />
+                <FormAutoComplete variant='standard' name='parentId' label='Chọn danh mục' options={opt || []} />
+                <FormInputText size="small" variant='standard' label="Giá bán" type='number' name="priceCurrent" />
+                <FormInputText size="small" variant='standard' label="Giá cũ" type='number' name="priceOld" />
+                <FormInputText size="small" variant='standard' label="Mô tả" name="description" />
+                <FormAutoComplateMulti variant='standard' name='sizes' label='Chọn size' options={optSize || []} />
+
                 <div className='flex gap-x-4'>
                   <label
                     className="bg-white text-gray-500 font-semibold text-base rounded  h-52 flex flex-col w-48 items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed font-[sans-serif]">
@@ -145,22 +163,26 @@ const ParentDisplay = ({ data, id }: { data?: ICategory[]; id?: string }) => {
 };
 
 
-const CategoryList = () => {
+const ProductList = () => {
   const { data } = useQuery({
     queryKey: ['get_all_category'],
     queryFn: () => category.list(),
     staleTime: Infinity,
   });
+  const { data: product } = useQuery({
+    queryKey: ['get_all_products'],
+    queryFn: () => products.list(),
+    staleTime: Infinity,
+  });
   const modalStateRef = useRef<FormDisplayForwardRef | null>(null)
-
   const queryClient = useQueryClient()
   const onDelete = async (id: string) => {
     try {
       const confirm = window.confirm("Bạn có chắc chắn muốn xoá không?");
       if (confirm) {
-        await category.delete(id)
+        await products.delete(id)
         queryClient.invalidateQueries({
-          queryKey: ['get_all_category']
+          queryKey: ['get_all_products']
         })
         toast.success("Xoá thành công!!!")
       }
@@ -204,18 +226,25 @@ const CategoryList = () => {
       },
     },
   ];
+  console.log(data,'data');
+  
 
   return (
     <>
       <h3 className="text-2xl mb-8">Danh sách danh mục</h3>
       <FormDisplay ref={modalStateRef} data={data?.data || []} />
       <DataGrid
-        rows={data?.data}
+        rows={product?.data}
         rowSelection={false}
         getRowId={(row) => row?._id}
+        rowCount={0}
         columns={columns}
         initialState={{
           pagination: { paginationModel: { page: 0, pageSize: 10 } },
+        }}
+        onPaginationModelChange={(model: GridPaginationModel) => {
+                console.log(model);
+                
         }}
         pageSizeOptions={[5, 10]}
         sx={{ border: 0 }}
@@ -223,4 +252,4 @@ const CategoryList = () => {
     </>
   );
 };
-export default CategoryList;
+export default ProductList;
