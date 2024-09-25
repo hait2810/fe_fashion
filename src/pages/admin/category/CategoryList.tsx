@@ -121,7 +121,7 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
                     <p className="text-xs font-medium text-gray-400 mt-2">PNG, JPG</p>
                   </label>
                   <div>
-                    {(imagePreview || avatar) && <img src={imagePreview ? imagePreview : avatar} alt="" className='max-w-md h-52' />}
+                    {(imagePreview || avatar) && <img src={imagePreview ? imagePreview : avatar} alt="" className='max-w-md h-52 rounded-sm' />}
                   </div>
                 </div>
               </div>
@@ -185,7 +185,7 @@ const CategoryList = () => {
       minWidth: 200,
       hideSortIcons: true,
       renderCell: (props) => {
-        return <img src={props?.row?.avatar} className='h-16 w-16' />;
+        return <img src={props?.row?.avatar} className='h-16 w-16 rounded-sm' />;
       },
     },
     {

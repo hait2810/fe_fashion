@@ -4,7 +4,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton
+  IconButton,
+  TextField
 } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -18,6 +19,7 @@ import { Upload } from '../../../api/upload';
 import { FormAutoComplete, OptionType } from '../../../components/FormAutoComplete';
 import { FormInputText } from '../../../components/FormInputText';
 import { FormAutoComplateMulti } from '../../../components/FormAutoComplateMulti';
+import { formatCurrency, formatNumber } from '../../../utils/utils';
 interface PropsForm {
   data: ICategory[]
 }
@@ -35,14 +37,13 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
   };
 
   useImperativeHandle(ref, () => ({
-    openDialog: (data: ICategory, isOpen: boolean) => {
+    openDialog: (data: IProduct, isOpen: boolean) => {
       methods.reset(data)
       setOpen(isOpen);
     },
   }))
 
   const handleClose = () => {
-    setImagePreview('')
     methods.reset({
       _id: undefined,
       avatar: undefined,
@@ -51,22 +52,25 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
       categoryId: undefined,
       description: undefined,
       isDiscounted: undefined,
-      priceCurrent: 0,
-      priceOld: 0, 
+      priceCurrent: undefined,
+      priceOld: undefined,
       sizes: undefined,
       status: undefined
     })
+    setImagePreview('')
     setOpen(false);
   };
   const avatar = useWatch({ control: methods.control, name: 'avatar' })
   const id = useWatch({ control: methods.control, name: '_id' })
   const opt = data?.filter(item => item.parentId)
     .map(item => ({ label: item.name, code: item._id })) as OptionType[];
-    const optSize = [
-      { label: 'S', code: 'S' },
-      { label: 'M', code: 'M' },
-      { label: 'L', code: 'L' },
-    ];
+  const optSize = [
+    { label: 'S', code: 'S' },
+    { label: 'M', code: 'M' },
+    { label: 'L', code: 'L' },
+    { label: 'XL', code: 'XL' },
+    { label: 'XXL', code: 'XXL' },
+  ];
   const queryClient = useQueryClient()
   const handleSubmitForm = async (data: ICategory) => {
     setIsLoading(true)
@@ -108,12 +112,11 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
             <form id='addcategory' onSubmit={methods.handleSubmit(handleSubmitForm)}>
               <div className="flex flex-col gap-4 mt-2">
                 <FormInputText size="small" variant='standard' label="Tên sản phẩm" name="name" />
-                <FormAutoComplete variant='standard' name='parentId' label='Chọn danh mục' options={opt || []} />
+                <FormAutoComplete variant='standard' name='categoryId' label='Chọn danh mục' options={opt || []} />
                 <FormInputText size="small" variant='standard' label="Giá bán" type='number' name="priceCurrent" />
                 <FormInputText size="small" variant='standard' label="Giá cũ" type='number' name="priceOld" />
-                <FormInputText size="small" variant='standard' label="Mô tả" name="description" />
                 <FormAutoComplateMulti variant='standard' name='sizes' label='Chọn size' options={optSize || []} />
-
+                <FormInputText size="small" variant='standard' label="Mô tả" name="description" />
                 <div className='flex gap-x-4'>
                   <label
                     className="bg-white text-gray-500 font-semibold text-base rounded  h-52 flex flex-col w-48 items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed font-[sans-serif]">
@@ -156,22 +159,19 @@ const FormDisplay = forwardRef<FormDisplayForwardRef, PropsForm>((props, ref) =>
 })
 
 
-
-const ParentDisplay = ({ data, id }: { data?: ICategory[]; id?: string }) => {
-  const category = data?.find((item) => item._id === id);
-  return category?.name;
-};
-
-
 const ProductList = () => {
   const { data } = useQuery({
     queryKey: ['get_all_category'],
     queryFn: () => category.list(),
     staleTime: Infinity,
   });
+  const [filter, setFilter] = useState<{ page?: number, size?: number, name?: string }>({
+    page: 1,
+    size: 10
+  })
   const { data: product } = useQuery({
-    queryKey: ['get_all_products'],
-    queryFn: () => products.list(),
+    queryKey: ['get_all_products', filter],
+    queryFn: () => products.list(filter),
     staleTime: Infinity,
   });
   const modalStateRef = useRef<FormDisplayForwardRef | null>(null)
@@ -190,24 +190,43 @@ const ProductList = () => {
       toast.error(error?.response?.data?.message)
     }
   }
-  const columns: GridColDef[] = [
+  const columns: GridColDef<IProduct>[] = [
     { field: 'name', headerName: 'Tên', minWidth: 300, hideSortIcons: true },
     {
-      field: 'lastName',
-      headerName: 'Parent',
-      minWidth: 300,
-      hideSortIcons: true,
-      renderCell: (props) => {
-        return <ParentDisplay data={data?.data} id={props?.row?.parentId} />;
+      field: 'priceCurrent', headerName: 'Giá bán', minWidth: 100, hideSortIcons: true, renderCell: (props) => {
+        return formatCurrency(props.row.priceCurrent || 0)
       },
+    },
+    {
+      field: 'priceOld', headerName: 'Giá cũ', minWidth: 100, hideSortIcons: true, renderCell: (props) => {
+        return formatCurrency(props.row.priceOld || 0)
+      },
+    },
+    {
+      field: 'sizes', headerName: 'Sizes', minWidth: 100, hideSortIcons: true, renderCell: (props) => {
+        return props.row.sizes?.map((item) => item).join(', ')
+      },
+    },
+    {
+      field: 'sold', headerName: 'Đã bán', minWidth: 100, hideSortIcons: true, renderCell: (props) => {
+        return formatNumber(props.row.sold || 0)
+      },
+    },
+    {
+      field: 'categoryId', headerName: 'Danh mục', minWidth: 100, hideSortIcons: true, renderCell: (props) => {
+        return data?.data?.find((item) => item?._id === props?.row?.categoryId)?.name
+      },
+    },
+    {
+      field: 'description', headerName: 'Mô tả', minWidth: 200, hideSortIcons: true,
     },
     {
       field: 'avatar',
       headerName: 'Ảnh',
-      minWidth: 200,
+      minWidth: 150,
       hideSortIcons: true,
       renderCell: (props) => {
-        return <img src={props?.row?.avatar} className='h-16 w-16' />;
+        return <img  src={props?.row?.avatar} className='h-16 w-16 rounded-sm' />;
       },
     },
     {
@@ -216,7 +235,7 @@ const ProductList = () => {
       hideSortIcons: true,
       renderCell: (props) => {
         return <div className='flex gap-x-2 items-center'>
-          <IconButton onClick={() => onDelete(props.row._id)} aria-label="delete">
+          <IconButton onClick={() => onDelete(props.row._id || '')} aria-label="delete">
             <HiMiniArchiveBoxXMark />
           </IconButton>
           <IconButton onClick={() => modalStateRef.current?.openDialog(props.row, true)} aria-label="edit">
@@ -226,27 +245,33 @@ const ProductList = () => {
       },
     },
   ];
-  console.log(data,'data');
-  
 
   return (
     <>
-      <h3 className="text-2xl mb-8">Danh sách danh mục</h3>
-      <FormDisplay ref={modalStateRef} data={data?.data || []} />
+      <h3 className="text-2xl mb-8">Danh sách sản phẩm</h3>
+      <div className='flex  items-center justify-between'>
+        <FormDisplay ref={modalStateRef} data={data?.data || []} />
+        <TextField
+          label={"Tìm kiếm theo tên"}
+          variant={"standard"}
+          onChange={(e: any) => {
+            setFilter((old) => ({ ...old, name: e?.target?.value || '' }))
+          }}
+        />
+      </div>
       <DataGrid
         rows={product?.data}
         rowSelection={false}
-        getRowId={(row) => row?._id}
-        rowCount={0}
+        getRowId={(row) => row?._id || ''}
+        rowCount={product?.count ?? 0}
         columns={columns}
         initialState={{
           pagination: { paginationModel: { page: 0, pageSize: 10 } },
         }}
         onPaginationModelChange={(model: GridPaginationModel) => {
-                console.log(model);
-                
+          setFilter((old) => ({ ...old, page: model?.page || 1, size: model?.pageSize || 10 }))
         }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[10, 20, 50, 100]}
         sx={{ border: 0 }}
       />
     </>

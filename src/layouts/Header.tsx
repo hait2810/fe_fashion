@@ -7,9 +7,18 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/images/logo.webp';
 import useUserStore from '../store/userStore';
 import { formatNumber } from '../utils/utils';
+import { useQuery } from '@tanstack/react-query';
+import { category } from '../api/cateogry';
 const Header = () => {
   const { data, clearUser } = useUserStore()
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const { data: categoryList } = useQuery({
+    queryKey: ['get_all_category'],
+    queryFn: () => category.list(),
+    staleTime: Infinity,
+  });
+  const opt = categoryList?.data?.filter(item => !item.parentId)
+
   return (
     <>
       <header className="h-[80px] w-[100%] py-[15px] fixed z-[100] bg-white shadow-lg">
@@ -32,22 +41,16 @@ const Header = () => {
                   Trang chủ
                 </Link>
               </li>
-              <li>
-                <Link
-                  className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-                  to=""
-                >
-                  Nam
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-                  to=""
-                >
-                  Nữ
-                </Link>
-              </li>
+              {opt?.map((item) => {
+                return <li>
+                  <Link
+                    className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
+                    to=""
+                  >
+                    {item?.name}
+                  </Link>
+                </li>
+              })}
               <li>
                 <Link
                   className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
@@ -134,24 +137,18 @@ const Header = () => {
                 Trang chủ
               </Link>
             </li>
-            <li>
-              <Link
-                onClick={() => setIsOpenMenu(false)}
-                className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-                to=""
-              >
-                Nam
-              </Link>
-            </li>
-            <li>
-              <Link
-                onClick={() => setIsOpenMenu(false)}
-                className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-                to=""
-              >
-                Nữ
-              </Link>
-            </li>
+           {opt?.map((item) => {
+            return <li>
+            <Link
+              onClick={() => setIsOpenMenu(false)}
+              className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
+              to=""
+            >
+              {item.name}
+            </Link>
+          </li>
+           })}
+            
             <li>
               <Link
                 onClick={() => setIsOpenMenu(false)}
@@ -172,28 +169,28 @@ const Header = () => {
             </li>
             <li>
               {data?.username ? <div className="my-4">
-              <Link
-                onClick={() => {
-                  setIsOpenMenu(false)
-                  clearUser()
-                }}
-                to="#"
-                className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-[#000000b3] font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1 w-fit"
+                <Link
+                  onClick={() => {
+                    setIsOpenMenu(false)
+                    clearUser()
+                  }}
+                  to="#"
+                  className="rounded-full bg-[#f2f4f7] px-6 py-3 text-xl text-[#000000b3] font-normal tracking-[2px] hover:bg-black hover:text-white flex items-start gap-x-1 w-fit"
+                >
+                  Đăng xuất
+                </Link>
+              </div> : <Link
+                onClick={() => setIsOpenMenu(false)}
+                className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
+                to="/dang-nhap"
               >
-                Đăng xuất
-              </Link>
-            </div>  : <Link
-              onClick={() => setIsOpenMenu(false)}
-              className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-              to="/dang-nhap"
-            >
-              Đăng nhập
-            </Link>}
+                Đăng nhập
+              </Link>}
 
-          </li>
-        </ul>
-      </nav>
-    </header >
+            </li>
+          </ul>
+        </nav>
+      </header >
     </>
   );
 };

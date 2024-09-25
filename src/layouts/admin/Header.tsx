@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import useUserStore from '../../store/userStore';
 const DropdownUser = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-  
     const trigger = useRef<any>(null);
     const dropdown = useRef<any>(null);
   

@@ -3,19 +3,35 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { BiHome } from "react-icons/bi";
 import { HiMinusSm, HiOutlinePlusSm } from "react-icons/hi";
 import { MdExpandMore } from "react-icons/md";
-import { Link as LinkA } from "react-router-dom";
+import { Link as LinkA, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { formatCurrency } from "../utils/utils";
+import { useQuery } from "@tanstack/react-query";
+import { IProduct, products } from "../api/products";
+import { category } from "../api/cateogry";
+import useCartStore, { IInfo } from "../store/useCart";
 
 
-interface IFormOrder {
+interface IFormOrder extends IProduct {
     size: string
     quantity: number
 }
 
-const listSize = ['S', 'M', 'L', 'XL', 'XXL']
 
 const ChiTietSanPham = () => {
+    const { id } = useParams()
+    const { data } = useQuery({
+        queryKey: ['get_detail_product', id],
+        queryFn: () => products.detail(id || ''),
+        staleTime: 5 * 60 * 1000
+    })
+    const { data: categoryList } = useQuery({
+        queryKey: ['get_all_category'],
+        queryFn: () => category.list(),
+        staleTime: Infinity,
+    });
+    const navigator = useNavigate()
+    const {addCart, cart} = useCartStore()
     const {
         register,
         control,
@@ -24,9 +40,26 @@ const ChiTietSanPham = () => {
         setValue,
         formState: { errors },
     } = useForm<IFormOrder>()
-    const onSubmit: SubmitHandler<IFormOrder> = (data, event) => {
+    const onSubmit: SubmitHandler<IFormOrder> = (dataForm, event) => {
         const buttonClicked = event?.target?.name;
-        console.log("--------", buttonClicked, data);
+        const raw = {
+            ...data?.data,
+            ...dataForm,
+            quantity: Number(dataForm.quantity)
+        }
+        const existingCart = cart.find((cart) => cart._id === raw._id && cart.size === raw.size);
+        let datacart: IInfo[] = [];
+        if (existingCart) {
+            datacart = cart.map((cart) =>
+                cart._id === existingCart._id && cart.size === existingCart.size ? { ...cart, quantity: Number(cart.quantity) + 1 } : cart
+            );
+        } else {
+            datacart = [...cart, raw];
+        }        
+        addCart(datacart)
+        if(buttonClicked === 'buy') {
+            navigator('/gio-hang')
+        }
     }
 
     if (errors) {
@@ -66,7 +99,7 @@ const ChiTietSanPham = () => {
                 sx={{ display: 'flex', alignItems: 'center' }}
                 color="text.primary"
             >
-                Áo phông abc
+                {data?.data?.name}
             </Typography>
         </Breadcrumbs>
         <div className="grid grid-cols-1 md:grid-cols-2 my-6 gap-x-10 gap-y-4">
@@ -74,23 +107,23 @@ const ChiTietSanPham = () => {
                 <img className="p-2 mx-auto" src="https://product.hstatic.net/1000235488/product/1045_9_ae47b370893f4dcc807b41b13dfe191e_large.jpg" alt="" />
             </div>
             <div className="flex flex-col gap-2">
-                <h3 className="font-medium text-2xl">Quần Short Nam ICONDENIM Brushed Terry Fabric </h3>
+                <h3 className="font-medium text-2xl">{data?.data?.name}</h3>
                 <div className="bg-red-500 w-fit px-2 rounded-sm ml-2">
                     <p className="text-white text-center text-sm">Còn hàng</p>
                 </div>
                 <div className="flex gap-x-2 text-lg mt-2">
-                    <div><span>Loại: </span><LinkA className="font-medium" to="">Quần Short</LinkA></div>
+                    <div><span>Loại: </span><LinkA className="font-medium" to="">{categoryList?.data?.find((item) => item?._id === data?.data?.categoryId)?.name}</LinkA></div>
                     <div>
                         |
                     </div>
-                    <span>MSP: <span className="font-medium">QH012013</span></span>
+                    <span>MSP: <span className="font-medium">{data?.data?._id}</span></span>
                 </div>
-                <p className="font-medium text-xl border-b-2">{formatCurrency(289912)}</p>
+                <p className="font-medium text-xl border-b-2">{formatCurrency(data?.data?.priceCurrent || 0)}</p>
                 <form >
                     <div>
                         <span className="text-xl font-medium">Kích thước: <span className="text-red-500">{size}</span> </span>
                         <div className="flex flex-wrap gap-2 my-2">
-                            {listSize.map((item, index) => {
+                            {data?.data?.sizes?.map((item, index) => {
                                 return <div key={index} className={`item relative py-2 px-4 border-[1px]  ${size === item ? 'border-gray-900' : 'border-gray-300'} rounded-md`}>
                                     <label>{item}   </label>
                                     <input className="absolute left-0 top-0 right-0 bottom-0 opacity-0" type="radio" {...register('size', { required: "Vui lòng chọn size" })} value={item} />
@@ -110,7 +143,7 @@ const ChiTietSanPham = () => {
                                     setValue('quantity', Number(getValues('quantity')) + 1)
                                 }} />
                             </div>
-                            <button name="add"  onClick={handleSubmit(onSubmit)} className="py-2 px-4 max-w-full w-full rounded-md bg-white text-red-500 outline-none border-[#ff8d22c9] border-[1px] hover:bg-[#ff8d22c9] transition-all duration-200 ease-linear hover:text-white font-medium" type="button">THÊM ĐƠN HÀNG</button>
+                            <button name="add" onClick={handleSubmit(onSubmit)} className="py-2 px-4 max-w-full w-full rounded-md bg-white text-red-500 outline-none border-[#ff8d22c9] border-[1px] hover:bg-[#ff8d22c9] transition-all duration-200 ease-linear hover:text-white font-medium" type="button">THÊM ĐƠN HÀNG</button>
                         </div>
                     </div>
                     <button type="submit" name="buy" onClick={handleSubmit(onSubmit)
@@ -122,10 +155,10 @@ const ChiTietSanPham = () => {
                                 aria-controls="panel1-content"
                                 id="panel1-header"
                             >
-                                Mô tả sản phẩm
+                                Thông tin mô tả
                             </AccordionSummary>
                             <AccordionDetails>
-                                Nội dung đang được cập nhật
+                                {data?.data?.description}
                             </AccordionDetails>
                         </Accordion>
                         <Accordion>
@@ -254,8 +287,8 @@ const ChiTietSanPham = () => {
             </div>
         </div>
         <div className="my-4">
-        <h3 className="text-2xl font-medium">Sản phẩm liên quan</h3>
-      </div>
+            <h3 className="text-2xl font-medium">Sản phẩm liên quan</h3>
+        </div>
     </div>
 }
 export default ChiTietSanPham
