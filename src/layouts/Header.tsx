@@ -9,6 +9,7 @@ import useUserStore from '../store/userStore';
 import { formatNumber } from '../utils/utils';
 import { useQuery } from '@tanstack/react-query';
 import { category } from '../api/cateogry';
+import useCartStore from '../store/useCart';
 const Header = () => {
   const { data, clearUser } = useUserStore()
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -18,7 +19,7 @@ const Header = () => {
     staleTime: Infinity,
   });
   const opt = categoryList?.data?.filter(item => !item.parentId)
-
+  const {cart = []} = useCartStore()
   return (
     <>
       <header className="h-[80px] w-[100%] py-[15px] fixed z-[100] bg-white shadow-lg">
@@ -36,7 +37,7 @@ const Header = () => {
               <li>
                 <Link
                   className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-                  to=""
+                  to="/"
                 >
                   Trang chủ
                 </Link>
@@ -45,7 +46,7 @@ const Header = () => {
                 return <li>
                   <Link
                     className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-                    to=""
+                    to={`/danh-muc/${item._id}`}
                   >
                     {item?.name}
                   </Link>
@@ -92,7 +93,7 @@ const Header = () => {
             <Link to={'/gio-hang'} className="bag relative cursor-pointer">
               <IoBagHandleOutline className="w-8 h-8" />
               <div className="absolute left-[1.5rem] right-0 top-[-2px] bottom-0 z-10 bg-red-500 w-[22px] h-[22px] p-1 flex justify-center items-center rounded-full text-white">
-                <span>{formatNumber(99)}</span>
+                <span>{formatNumber(cart.length)}</span>
               </div>
             </Link>
           </div>
@@ -100,7 +101,7 @@ const Header = () => {
             <Link to={'/gio-hang'} className="bag relative cursor-pointer">
               <IoBagHandleOutline className="w-6 h-6" />
               <div className="absolute left-[1.2rem] right-0 top-[-2px] text-[] bottom-0 z-10 bg-red-500 w-[18px] h-[18px] p-1 flex justify-center items-center rounded-full text-white">
-                <span>{formatNumber(99)}</span>
+                <span>{formatNumber(cart.length)}</span>
               </div>
             </Link>
             {isOpenMenu ? (
@@ -142,7 +143,7 @@ const Header = () => {
             <Link
               onClick={() => setIsOpenMenu(false)}
               className="cursor-pointer  hover:bg-blue-300 px-2 py-1 hover:rounded-full hover:text-white duration-500"
-              to=""
+              to={`/danh-muc/${item._id}`}
             >
               {item.name}
             </Link>

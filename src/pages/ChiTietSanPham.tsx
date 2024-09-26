@@ -104,7 +104,7 @@ const ChiTietSanPham = () => {
         </Breadcrumbs>
         <div className="grid grid-cols-1 md:grid-cols-2 my-6 gap-x-10 gap-y-4">
             <div className="border-[1px] rounded-lg border-gray-200 max-h-[500px] mx-auto w-full">
-                <img className="p-2 mx-auto" src="https://product.hstatic.net/1000235488/product/1045_9_ae47b370893f4dcc807b41b13dfe191e_large.jpg" alt="" />
+                <img className="p-2 mx-auto max-h-full" src={data?.data?.avatar} alt="" />
             </div>
             <div className="flex flex-col gap-2">
                 <h3 className="font-medium text-2xl">{data?.data?.name}</h3>

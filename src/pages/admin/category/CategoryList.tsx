@@ -171,13 +171,19 @@ const CategoryList = () => {
   const columns: GridColDef[] = [
     { field: 'name', headerName: 'Tên', minWidth: 300, hideSortIcons: true },
     {
-      field: 'lastName',
+      field: 'parentId',
       headerName: 'Parent',
       minWidth: 300,
       hideSortIcons: true,
       renderCell: (props) => {
         return <ParentDisplay data={data?.data} id={props?.row?.parentId} />;
       },
+    },
+    {
+      field: 'productCount',
+      headerName: 'Số sản phẩm',
+      minWidth: 300,
+      hideSortIcons: true,
     },
     {
       field: 'avatar',

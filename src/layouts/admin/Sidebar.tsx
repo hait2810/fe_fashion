@@ -1,4 +1,4 @@
-import { BiCategory, BiHome, BiLogOut } from 'react-icons/bi'
+import { BiCart, BiCategory, BiHome, BiLogOut } from 'react-icons/bi'
 import { CgProductHunt } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
 import useUserStore from '../../store/userStore'
@@ -28,6 +28,12 @@ export const Sidebar = () => {
                             <Link to="products" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
                                 <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><CgProductHunt /></span>
                                 <span className="text-sm font-medium">Sản phẩm</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="carts" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+                                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><BiCart /></span>
+                                <span className="text-sm font-medium">Đơn hàng</span>
                             </Link>
                         </li>
                         {/* <li>

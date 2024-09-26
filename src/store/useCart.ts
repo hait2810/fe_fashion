@@ -30,10 +30,10 @@ const deCrement = (product: IInfo, cart: IInfo[]) => {
 }
 
 
-const inCrement = (product: IInfo, cart: IInfo[]) => {
+const inCrement = (product: IInfo, cart: IInfo[],quantity: number) => {
     const res = cart.map((item) => {
         if (item._id == product._id && item.size === product.size) {
-            return { ...item, quantity: Number(item.quantity) + 1 }
+            return { ...item, quantity: Number(quantity) }
         } else {
             return item;
         }
@@ -45,7 +45,7 @@ const inCrement = (product: IInfo, cart: IInfo[]) => {
 const remove = (product: IInfo, cart: IInfo[]) => {
     const confirm = window.confirm("Bạn có chắc chắn muốn xóa không");
     if (confirm) {
-        const res = cart.filter((item) => item._id == product._id && item.size === product.size)
+        const res = cart.filter((item) => !(item._id === product._id && item.size === product.size));
         return res;
     }
     return cart;
@@ -55,7 +55,7 @@ interface ICartActions {
     addCart: (newUser: IInfo[]) => void;
     clearCart: () => void;
     onDecrement: (product: IInfo) => void;
-    onIncrement: (product: IInfo) => void;
+    onIncrement: (product: IInfo, quantity: number) => void;
     onRemove: (product: IInfo) => void;
 }
 
@@ -69,8 +69,8 @@ const useCartStore = create<ICart & ICartActions>()(
                     position: 'top-center',
                 })
             },
-            onIncrement: (product: IInfo) => {
-                set((state) => ({ cart: inCrement(product, state.cart) }))
+            onIncrement: (product: IInfo, quantity: number) => {
+                set((state) => ({ cart: inCrement(product, state.cart,quantity) }))
             },
             onDecrement: (product: IInfo) => {
                 set((state) => ({ cart: deCrement(product, state.cart) }))

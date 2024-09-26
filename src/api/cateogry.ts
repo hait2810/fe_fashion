@@ -5,6 +5,7 @@ export interface ICategory {
     name?: string
     parentId?: string
     avatar?: string
+    productCount?: number
     images?: any
 }
 const GetList = async () => {
